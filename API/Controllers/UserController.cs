@@ -4,14 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : BaseAPIController
     {
         private readonly DataContext _context;
         public UserController(DataContext context)
@@ -30,6 +29,15 @@ namespace API.Controllers
             var users=await _context.Users.FindAsync(id);
             if(users==null)
             return NotFound();
+            return users;
+        }
+        [Authorize]
+        [HttpGet("Authorize/{id:long}")] //api/user/id of user
+        public async Task<ActionResult<AppUser>> AuthenticatedUser(Int64 id)
+        {
+            var users=await _context.Users.FindAsync(id);
+            if(users==null)
+            return NotFound("User Not Available");
             return users;
         }
     }
