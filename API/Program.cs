@@ -37,7 +37,12 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().WithOrigins("http://localhost:4200","https://localhost:4200"));
+//app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().WithOrigins("http://localhost:4200","https://localhost:4200")); having issue with CORS
+
+app.UseCors(x => x.WithOrigins("http://localhost:4200", "https://localhost:4200") // Allow specific origins
+    .AllowAnyHeader()  // Allow any headers (needed for JSON requests)
+    .AllowAnyMethod()  // Allow GET, POST, PUT, DELETE, etc.
+    .AllowCredentials());
 
 app.UseAuthentication();
 

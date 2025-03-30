@@ -17,12 +17,14 @@ namespace API.Controllers
         {
             _context=context;
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUser()
         {
             var users= await _context.Users.ToListAsync();
             return users;
         } 
+        [AllowAnonymous]
         [HttpGet("{id:long}")] //api/user/id of user
         public async Task<ActionResult<AppUser>> GetUsers(Int64 id)
         {
