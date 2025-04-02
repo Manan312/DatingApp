@@ -34,13 +34,13 @@
           </li>
           }
         </ul>
-        @if(accountservice.currentUser()) {
+        @if(accountservice.currentUser()!=null) {
         <div class="dropdown" dropdown>
           <a
             dropdownToggle
             class="dropdown-toggle text-light text-decoration-none"
             data-bs-toggle="dropdown"
-            >Welcome user</a
+            >Welcome {{accountservice.currentUser()?.userName | titlecase}}</a
           >
           <div *dropdownMenu class="dropdown-menu">
             <a href="#" class="dropdown-item">Edit Profile</a>

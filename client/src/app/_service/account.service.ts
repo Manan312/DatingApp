@@ -10,15 +10,20 @@ export class AccountService {
   private http = inject(HttpClient);
   baseurl = 'https://localhost:5001/api/';
   //signal
-  currentUser = signal<User | null>(null);
+  currentUser = signal<User|null>(null);
 
   login(model: any) {
     return this.http.post<User>(this.baseurl + 'account/login', model).pipe(
       map((user) => {
+        if(user){
         localStorage.setItem('user', JSON.stringify(user));
+        console.log(user);
+        console.log('Before set:', this.currentUser());
         this.currentUser.set(user);
+        console.log('After set:', this.currentUser());
+        console.log(this.currentUser()?.userName);
+        }
       })
-      
     );
   }
 
