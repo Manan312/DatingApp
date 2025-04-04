@@ -2,6 +2,7 @@ using System.Text;
 using API.Data;
 using API.Extensions;
 using API.Interfaces;
+using API.Middleware;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -36,9 +37,9 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 //app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().WithOrigins("http://localhost:4200","https://localhost:4200")); having issue with CORS
-
 app.UseCors(x => x.WithOrigins("http://localhost:4200", "https://localhost:4200") // Allow specific origins
     .AllowAnyHeader()  // Allow any headers (needed for JSON requests)
     .AllowAnyMethod()  // Allow GET, POST, PUT, DELETE, etc.
