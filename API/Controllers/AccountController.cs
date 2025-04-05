@@ -27,22 +27,23 @@ namespace API.Controllers
         {
             using var hmac = new HMACSHA512();
             if (await UserExists(Newuser.UserName)) return BadRequest("UserName is Taken");
-            var user = new AppUser
-            {
-                UserName = Newuser.UserName.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(Newuser.Password)),
-                PasswordSalt = hmac.Key
-            };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            TokenDTO token = _tokenService.CreateToken(user);
-            if (token.Status == "F") return BadRequest(token.Message);
-            if (string.IsNullOrEmpty(token.Token)) return BadRequest("Error in Creating the JWT Token");
-            return new LoginReponseDTO
-            {
-                UserName = user.UserName,
-                Token = Convert.ToString(token.Token)
-            };
+            // var user = new AppUser
+            // {
+            //     UserName = Newuser.UserName.ToLower(),
+            //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(Newuser.Password)),
+            //     PasswordSalt = hmac.Key
+            // };
+            // _context.Users.Add(user);
+            // await _context.SaveChangesAsync();
+            // TokenDTO token = _tokenService.CreateToken(user);
+            // if (token.Status == "F") return BadRequest(token.Message);
+            // if (string.IsNullOrEmpty(token.Token)) return BadRequest("Error in Creating the JWT Token");
+            // return new LoginReponseDTO
+            // {
+            //     UserName = user.UserName,
+            //     Token = Convert.ToString(token.Token)
+            // };
+            return Ok("User Created");
         }
         [HttpPost("deleteUser")]
         public async Task<ActionResult<string>> DeleteUser(string Username)

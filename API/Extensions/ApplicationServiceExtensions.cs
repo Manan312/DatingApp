@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,6 +26,9 @@ namespace API.Extensions
             });
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
+            //Repository 
+            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddAutoMapper(typeof(MapperProfile)); 
             return services;
         }
     }
