@@ -2,32 +2,39 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MembersService } from '../../_service/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from '../../_models/member';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 
 @Component({
   selector: 'app-member-detail',
-  imports: [],
+  imports: [TabsModule, GalleryModule],
   templateUrl: './member-detail.component.html',
-  styleUrl: './member-detail.component.css'
+  styleUrl: './member-detail.component.css',
 })
-export class MemberDetailComponent implements OnInit{
-  private memberService=inject(MembersService);
-  private route=inject(ActivatedRoute);
+export class MemberDetailComponent implements OnInit {
+  private memberService = inject(MembersService);
+  private route = inject(ActivatedRoute);
 
-  member?:Member;
-   
+  member?: Member;
+
+  images: GalleryItem[] = [];
   ngOnInit(): void {
-      this.loadMember()
+    this.loadMember();
   }
 
-  loadMember()
-  {
-    const userName=this.route.snapshot.paramMap.get('username');
+  loadMember() {
+    const userName = this.route.snapshot.paramMap.get('username');
 
-    if(!userName) return;
+    if (!userName) return;
 
     this.memberService.getMember(userName).subscribe({
-      next: member=> this.member=member,
-      error:error=> console.log(error)  
-    })
+      next: (member) => {
+        this.member = member;
+        member.photos.map(p => {
+          this.images.push(new ImageItem({ src: p.url, thumb: p.url }));
+        });
+      },
+      error: (error) => console.log(error),
+    });
   }
 }
