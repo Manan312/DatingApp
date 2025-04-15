@@ -52,7 +52,7 @@
             >Welcome {{accountservice.currentUser()?.userName | titlecase}}</a
           >
           <div *dropdownMenu class="dropdown-menu">
-            <a href="#" class="dropdown-item">Edit Profile</a>
+            <a class="dropdown-item" [routerLink]="['/member/edit']">Edit Profile</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item" (click)="loggedout()">Log Out</a>
           </div>
