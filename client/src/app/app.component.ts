@@ -5,11 +5,13 @@ import { NgFor } from '@angular/common';
 import { NavComponent } from "./nav/nav.component";
 import { AccountService } from './_service/account.service';
 import { HomeComponent } from "./home/home.component";
+import { NgxSpinnerComponent } from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-root',
   standalone:true,  
-  imports: [ NavComponent,RouterOutlet],
+  imports: [ NavComponent,RouterOutlet,NgxSpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

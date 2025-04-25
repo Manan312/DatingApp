@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -51,6 +52,24 @@ namespace API.Controllers
             return NotFound("User Not Available");
             var usersToReturn=_mapper.Map<MemberDTO>(users);
             return usersToReturn;
+        }
+        [HttpPut("UpdateMemberData")]
+        public async Task<ActionResult> UpdateUser(MemberUpdateDTO memberUpdateDTO)
+        {
+            var username=User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if(username==null)
+            return BadRequest("No Username found in token");
+
+            var user=await _userRepository.GetUserByUsernameAsync(username);
+
+            if(user==null) return BadRequest("No User Found");
+
+            _mapper.Map(memberUpdateDTO,user);
+
+            if(await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to update the user");
         }
     }
 }
