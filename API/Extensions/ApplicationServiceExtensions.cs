@@ -28,7 +28,13 @@ namespace API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             //Repository 
             services.AddScoped<IUserRepository,UserRepository>();
+            //PhotoUpload
+            services.AddScoped<IPhotoServices,PhotoServices>();
             services.AddAutoMapper(typeof(MapperProfile)); 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+
             return services;
         }
     }
